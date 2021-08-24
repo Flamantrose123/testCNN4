@@ -20,8 +20,13 @@ def bluring_and_resize():
 def change_label(oldDirectory, newDirectory, oldLabel, newLabel):
     for file in os.listdir(oldDirectory):
         if int(file.split('_')[0]) == oldLabel:
-            old_file = os.path.join(newDirectory, file)
+            #print(file)
+            old_file = os.path.join(oldDirectory, file)
+            #print(old_file)
             new1 = file.split('_')[1]
+            #print(new1)
             new = f'{newLabel}_{new1}'
+            #print(new)
             new_file = os.path.join(newDirectory, new)
+            #print(new_file)
             os.rename(old_file, new_file)
