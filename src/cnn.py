@@ -9,13 +9,13 @@ from tensorflow.keras.applications import ResNet50
 from PIL import Image
 from sklearn.metrics import classification_report, confusion_matrix
 
-SAMPLE_LABEL = {0, 1, 2, 3}
-NB_LABEL = 4
+SAMPLE_LABEL = {0, 1, 2, 3, 4}
+NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 15
+EPOCHS = 20
 MODEL_SAVE = 1
-MODEL_SAVE_REPO = './resnet50_4Label2'
+MODEL_SAVE_REPO = './resnet50_5Label3'
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
