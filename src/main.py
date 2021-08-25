@@ -72,3 +72,4 @@ if __name__ == '__main__':
    #change_label(directory, directory2, 1, 4)
 
 # See PyCharm # at https://www.jetbrains.com/help/pycharm/
+#source venv/bin/activate
