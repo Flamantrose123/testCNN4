@@ -13,9 +13,9 @@ SAMPLE_LABEL = {0, 1, 2, 3, 4}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 20
+EPOCHS = 15
 MODEL_SAVE = 1
-MODEL_SAVE_REPO = './resnet50_5Label3'
+MODEL_SAVE_REPO = './resnet50_5Label6'
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
@@ -118,6 +118,9 @@ def initialize_model(nbLabel):
 
     # Set the pooling layer
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    
+    # let's add a fully-connected layer
+    x = tf.keras.layers.Dense(128, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
