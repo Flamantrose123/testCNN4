@@ -9,7 +9,7 @@ from tensorflow.keras.applications import ResNet50
 from PIL import Image
 from sklearn.metrics import classification_report, confusion_matrix
 
-SAMPLE_LABEL = {0, 1, 2, 3, 4}
+SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
@@ -66,7 +66,7 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL:
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1]) < 500):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
