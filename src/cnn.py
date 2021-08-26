@@ -5,24 +5,25 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications import ResNet50V2
+from tensorflow.keras.applications import ResNet50
 from PIL import Image
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-
 
 SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 1
+EPOCHS = 15
 MODEL_SAVE = 0
 MODEL_SAVE_REPO = './resnet50_5Label7'
+
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
 
 def train_and_save_model():
+
     split_sample()
     df_train = dframe('training')
     df_val = dframe('validation')
@@ -43,8 +44,6 @@ def train_and_save_model():
 
     if MODEL_SAVE == 1:
         model.save(MODEL_SAVE_REPO)
-
-
 
 
 # transforms an image into a numpy array with a label
@@ -69,8 +68,7 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL or (
-                    int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
@@ -91,7 +89,6 @@ def sample_augmentation(sample_type, sample):
         width_shift_range=0.2,
         height_shift_range=0.2,
         horizontal_flip=True,
-        vertical_flip=True,
     )
 
     generator = datagen.flow_from_dataframe(
@@ -108,7 +105,7 @@ def sample_augmentation(sample_type, sample):
 # create the neural network with the different layers
 def initialize_model(nbLabel):
     # Initialize the Pretrained Model
-    feature_extractor = ResNet50V2(weights='imagenet',
+    feature_extractor = ResNet50(weights='imagenet',
                                  input_shape=(224, 224, 3),
                                  include_top=False)
 
@@ -125,7 +122,7 @@ def initialize_model(nbLabel):
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
 
     # let's add a fully-connected layer
-    #x = tf.keras.layers.Dense(denseN, activation='relu')(x)
+    x = tf.keras.layers.Dense(1024, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
@@ -172,9 +169,8 @@ def evaluate_model(model):
     print(classification_report(y_true, y_pred))
     print()
     print(confusion_matrix(y_true, y_pred))
-
-    return accuracy_score(y_true, y_pred)
-
+    print(accuracy_score(y_true, y_pred))
+    return
 
 # empty training, validation and evaluation set sample
 def empty_repo():
