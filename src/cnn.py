@@ -13,8 +13,8 @@ SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 15
-MODEL_SAVE = 1
+EPOCHS = 1
+MODEL_SAVE = 0
 MODEL_SAVE_REPO = './resnet50_5Label6'
 
 
@@ -66,7 +66,7 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1]) < 500):
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
