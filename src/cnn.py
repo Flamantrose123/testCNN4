@@ -23,7 +23,7 @@ MODEL_SAVE_REPO = './resnet50_5Label7'
 def testDense(nb):
     list = [16, 32, 64, 128, 256, 512, 1024]
     listAcc = [0, 0, 0, 0, 0, 0, 0]
-    nb = 10
+
     for i in range(7):
         for j in range(nb):
             listAcc[i] += train_and_save_model(list[i])

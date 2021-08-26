@@ -5,7 +5,7 @@
 import os
 import random
 
-from cnn import train_and_save_model
+from cnn import train_and_save_model, testDense
 import tensorflow as tf
 
 from preprocessing import change_label
@@ -78,7 +78,8 @@ if __name__ == '__main__':
 
    if USE_GPU ==1 :
       setup_gpus([0], verbosity=1)
-   train_and_save_model()
+   testDense(10)
+   #train_and_save_model()
 
 
    #change_label(directory, directory2, 1, 4)
