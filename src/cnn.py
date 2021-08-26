@@ -14,8 +14,8 @@ NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
 EPOCHS = 15
-MODEL_SAVE = 1
-MODEL_SAVE_REPO = './resnet50_5Label6'
+MODEL_SAVE = 0
+MODEL_SAVE_REPO = './resnet50_5Label7'
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
@@ -66,7 +66,7 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1]) < 500):
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
@@ -120,7 +120,7 @@ def initialize_model(nbLabel):
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     
     # let's add a fully-connected layer
-    x = tf.keras.layers.Dense(128, activation='relu')(x)
+    x = tf.keras.layers.Dense(1024, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
