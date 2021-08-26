@@ -28,6 +28,8 @@ def testDense(nb):
         for j in range(nb):
             listAcc[i] += train_and_save_model(list[i])
     print(listAcc)
+    with open('../ressources/fichierTest', 'w') as f:
+        f.write(repr(listAcc))
 
 
 def train_and_save_model(denseN):
