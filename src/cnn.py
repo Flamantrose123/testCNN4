@@ -7,23 +7,21 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import ResNet50
 from PIL import Image
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
 
 SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 15
+EPOCHS = 1
 MODEL_SAVE = 0
-MODEL_SAVE_REPO = './resnet50_5Label7'
-
+MODEL_SAVE_REPO = './resnet50_5Label6'
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
 
 def train_and_save_model():
-
     split_sample()
     df_train = dframe('training')
     df_val = dframe('validation')
@@ -120,9 +118,9 @@ def initialize_model(nbLabel):
 
     # Set the pooling layer
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
-
+    
     # let's add a fully-connected layer
-    x = tf.keras.layers.Dense(1024, activation='relu')(x)
+    x = tf.keras.layers.Dense(128, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
@@ -169,8 +167,7 @@ def evaluate_model(model):
     print(classification_report(y_true, y_pred))
     print()
     print(confusion_matrix(y_true, y_pred))
-    print(accuracy_score(y_true, y_pred))
-    return
+
 
 # empty training, validation and evaluation set sample
 def empty_repo():
