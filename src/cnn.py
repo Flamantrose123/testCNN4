@@ -5,34 +5,24 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications import ResNet50V2
 from PIL import Image
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+
 
 SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 15
+EPOCHS = 1
 MODEL_SAVE = 0
 MODEL_SAVE_REPO = './resnet50_5Label7'
 
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
-def testDense(nb):
-    list = [16, 32, 64, 128, 256, 512, 1024]
-    listAcc = [0, 0, 0, 0, 0, 0, 0]
 
-    for i in range(7):
-        for j in range(nb):
-            listAcc[i] += train_and_save_model(list[i])
-    print(listAcc)
-    with open('../ressources/fichierTest', 'w') as f:
-        f.write(repr(listAcc))
-
-
-def train_and_save_model(denseN):
+def train_and_save_model():
     split_sample()
     df_train = dframe('training')
     df_val = dframe('validation')
@@ -43,18 +33,18 @@ def train_and_save_model(denseN):
     train_generator = sample_augmentation("training", df_train)
     val_generator = sample_augmentation("validation", df_val)
 
-    model = initialize_model(NB_LABEL, denseN)
+    model = initialize_model(NB_LABEL)
 
     train_model(model, train_generator, val_generator, EPOCHS)
 
-    ret = evaluate_model(model)
+    evaluate_model(model)
 
     empty_repo()
 
     if MODEL_SAVE == 1:
         model.save(MODEL_SAVE_REPO)
 
-    return ret
+
 
 
 # transforms an image into a numpy array with a label
@@ -101,6 +91,7 @@ def sample_augmentation(sample_type, sample):
         width_shift_range=0.2,
         height_shift_range=0.2,
         horizontal_flip=True,
+        vertical_flip=True,
     )
 
     generator = datagen.flow_from_dataframe(
@@ -117,7 +108,7 @@ def sample_augmentation(sample_type, sample):
 # create the neural network with the different layers
 def initialize_model(nbLabel, denseN):
     # Initialize the Pretrained Model
-    feature_extractor = ResNet50(weights='imagenet',
+    feature_extractor = ResNet50V2(weights='imagenet',
                                  input_shape=(224, 224, 3),
                                  include_top=False)
 
