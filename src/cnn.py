@@ -125,7 +125,7 @@ def initialize_model(nbLabel):
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
 
     # let's add a fully-connected layer
-    x = tf.keras.layers.Dense(denseN, activation='relu')(x)
+    #x = tf.keras.layers.Dense(denseN, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
