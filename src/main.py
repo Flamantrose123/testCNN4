@@ -65,10 +65,22 @@ def setup_gpus(selected_gpu_ids: list, use_cuda_visible_devices: bool = False, r
       exit(1)
 
 
+def test():
+   list = [16, 32, 64, 128, 256, 512, 1024]
+   listAcc = [0, 0, 0, 0, 0, 0, 0]
+   nb = 10
+   for i in range(7):
+      for j in range(nb):
+         listAcc[i] += list[i]
+   print(listAcc)
+
 if __name__ == '__main__':
+
    if USE_GPU ==1 :
       setup_gpus([0], verbosity=1)
    train_and_save_model()
+
+
    #change_label(directory, directory2, 1, 4)
 
 # See PyCharm # at https://www.jetbrains.com/help/pycharm/

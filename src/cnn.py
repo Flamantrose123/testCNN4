@@ -20,8 +20,17 @@ MODEL_SAVE_REPO = './resnet50_5Label7'
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
+def testDense(nb):
+    list = [16, 32, 64, 128, 256, 512, 1024]
+    listAcc = [0, 0, 0, 0, 0, 0, 0]
+    nb = 10
+    for i in range(7):
+        for j in range(nb):
+            listAcc[i] += train_and_save_model(list[i])
+    print(listAcc)
 
-def train_and_save_model():
+
+def train_and_save_model(denseN):
     split_sample()
     df_train = dframe('training')
     df_val = dframe('validation')
@@ -32,16 +41,18 @@ def train_and_save_model():
     train_generator = sample_augmentation("training", df_train)
     val_generator = sample_augmentation("validation", df_val)
 
-    model = initialize_model(NB_LABEL)
+    model = initialize_model(NB_LABEL, denseN)
 
     train_model(model, train_generator, val_generator, EPOCHS)
 
-    evaluate_model(model)
+    ret = evaluate_model(model)
 
     empty_repo()
 
     if MODEL_SAVE == 1:
         model.save(MODEL_SAVE_REPO)
+
+    return ret
 
 
 # transforms an image into a numpy array with a label
@@ -66,7 +77,8 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (
+                    int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
@@ -101,7 +113,7 @@ def sample_augmentation(sample_type, sample):
 
 
 # create the neural network with the different layers
-def initialize_model(nbLabel):
+def initialize_model(nbLabel, denseN):
     # Initialize the Pretrained Model
     feature_extractor = ResNet50(weights='imagenet',
                                  input_shape=(224, 224, 3),
@@ -118,9 +130,9 @@ def initialize_model(nbLabel):
 
     # Set the pooling layer
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
-    
+
     # let's add a fully-connected layer
-    x = tf.keras.layers.Dense(1024, activation='relu')(x)
+    x = tf.keras.layers.Dense(denseN, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
@@ -167,7 +179,8 @@ def evaluate_model(model):
     print(classification_report(y_true, y_pred))
     print()
     print(confusion_matrix(y_true, y_pred))
-    print(accuracy_score(y_true, y_pred))
+
+    return accuracy_score(y_true, y_pred)
 
 
 # empty training, validation and evaluation set sample
