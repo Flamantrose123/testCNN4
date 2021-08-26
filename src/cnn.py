@@ -7,7 +7,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import ResNet50
 from PIL import Image
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 SAMPLE_LABEL = {0, 1, 2, 3}
 NB_LABEL = 5
@@ -167,6 +167,7 @@ def evaluate_model(model):
     print(classification_report(y_true, y_pred))
     print()
     print(confusion_matrix(y_true, y_pred))
+    print(accuracy_score(y_true, y_pred))
 
 
 # empty training, validation and evaluation set sample
