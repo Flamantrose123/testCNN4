@@ -106,7 +106,7 @@ def sample_augmentation(sample_type, sample):
 
 
 # create the neural network with the different layers
-def initialize_model(nbLabel, denseN):
+def initialize_model(nbLabel):
     # Initialize the Pretrained Model
     feature_extractor = ResNet50V2(weights='imagenet',
                                  input_shape=(224, 224, 3),
