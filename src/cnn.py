@@ -90,7 +90,7 @@ def sample_augmentation(sample_type, sample):
         horizontal_flip=True,
     )
 
-    datagen.fit(sample)
+    datagen.fit(pd.DataFrame.to_numpy(sample))
 
     generator = datagen.flow_from_dataframe(
         sample,
