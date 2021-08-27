@@ -89,8 +89,8 @@ def sample_augmentation(sample_type, sample):
         height_shift_range=0.2,
         horizontal_flip=True,
     )
-
-    datagen.fit(pd.DataFrame.to_numpy(sample))
+    we = pd.DataFrame.to_numpy(sample)
+    datagen.fit(we)
 
     generator = datagen.flow_from_dataframe(
         sample,
