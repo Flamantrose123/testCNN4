@@ -90,7 +90,8 @@ def sample_augmentation(sample_type, sample):
         horizontal_flip=True,
     )
     we = pd.DataFrame.to_numpy(sample)
-    #datagen.fit(we)
+
+    datagen.fit(sample.sample)
 
     generator = datagen.flow_from_dataframe(
         sample,
@@ -123,7 +124,7 @@ def initialize_model(nbLabel):
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     
     # let's add a fully-connected layer
-    x = tf.keras.layers.Dense(128, activation='relu')(x)
+    #x = tf.keras.layers.Dense(128, activation='relu')(x)
 
     # Set the final layer with sigmoid activation function
     output_ = tf.keras.layers.Dense(nbLabel, activation='softmax')(x)
@@ -144,7 +145,7 @@ def train_model(model, train_generator, val_generator, epochs):
     # Print The Summary of The Model
     model.summary()
 
-    model.fit_generator(train_generator, epochs=epochs, validation_data=val_generator)
+    model.fit(train_generator, epochs=epochs, validation_data=val_generator)
 
 
 # evaluates the model with the evaluation set and prints out the accuracy statistics
