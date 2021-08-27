@@ -21,6 +21,7 @@ MODEL_SAVE_REPO = './resnet50_5Label6'
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
 
+
 def train_and_save_model():
     split_sample()
     df_train = dframe('training')
