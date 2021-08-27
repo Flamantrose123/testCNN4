@@ -102,9 +102,10 @@ def sample_augmentation(sample_type, sample):
         height_shift_range=0.2,
         horizontal_flip=True,
     )
-    we = x_train()
 
-    datagen.fit(we)
+    #train = x_train()
+
+    #datagen.fit(train)
 
     generator = datagen.flow_from_dataframe(
         sample,
