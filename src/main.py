@@ -5,6 +5,9 @@
 import os
 import random
 
+from PIL import Image
+from tensorflow.python.keras.datasets import cifar10
+
 from cnn import train_and_save_model
 import tensorflow as tf
 
@@ -65,12 +68,15 @@ def setup_gpus(selected_gpu_ids: list, use_cuda_visible_devices: bool = False, r
       exit(1)
 
 
+import os
+
+
 
 if __name__ == '__main__':
 
-   #if USE_GPU ==0 :
-      #setup_gpus([0], verbosity=1)
-   #testDense(10)
+   if USE_GPU ==1 :
+      setup_gpus([0], verbosity=1)
+
    train_and_save_model()
 
 

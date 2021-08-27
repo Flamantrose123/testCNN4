@@ -79,6 +79,19 @@ def split_sample():
                         image.save(f'../ressources/{REPO}/evaluation/' + i)
 
 
+def x_train():
+    instances = np.empty((2718,224,224,3))
+    j = 0
+    for i in os.listdir(f'../ressources/photosR/training'):
+      if i != '.ipynb_checkpoints':
+            with Image.open(f'../ressources/photosR/training/' + i) as image:
+               image2 = np.array(image)
+               instances[j] = image2
+               j += 1
+    return instances
+
+
+
 # create new samples from existing ones
 def sample_augmentation(sample_type, sample):
     datagen = ImageDataGenerator(
@@ -89,11 +102,9 @@ def sample_augmentation(sample_type, sample):
         height_shift_range=0.2,
         horizontal_flip=True,
     )
-    we = pd.DataFrame.to_numpy(sample)
-    wer = tf.keras.preprocessing.image_dataset_from_directory(
-        f'../ressources/{REPO}/{sample_type}/',  image_size=(224, 224)
-    )
-    #datagen.fit(sample.sample)
+    we = x_train()
+
+    datagen.fit(we)
 
     generator = datagen.flow_from_dataframe(
         sample,
