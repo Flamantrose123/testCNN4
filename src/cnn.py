@@ -90,8 +90,10 @@ def sample_augmentation(sample_type, sample):
         horizontal_flip=True,
     )
     we = pd.DataFrame.to_numpy(sample)
-
-    datagen.fit(sample.sample)
+    wer = tf.keras.preprocessing.image_dataset_from_directory(
+        f'../ressources/{REPO}/{sample_type}/', labels = sample,  image_size=(224, 224)
+    )
+    #datagen.fit(sample.sample)
 
     generator = datagen.flow_from_dataframe(
         sample,
