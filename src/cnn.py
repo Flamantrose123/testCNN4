@@ -10,13 +10,16 @@ from PIL import Image
 from sklearn.metrics import classification_report, confusion_matrix
 
 SAMPLE_LABEL = {0, 1, 2, 3}
-NB_LABEL = 5
+OTHER_FOOD = 1
+LABEL_OTHER_FOOD = 4
+NBR_OTHER_FOOD = 500
 REPO_O = 'photos'
 REPO = 'photos2'
-EPOCHS = 1
+EPOCHS = 2
 MODEL_SAVE = 0
 MODEL_SAVE_REPO = './resnet50_5Label6'
 
+NB_LABEL = len(SAMPLE_LABEL) + OTHER_FOOD
 
 # 'C:/Users/maxen/switchdrive/HEIAFR/CNNAppWeb/posts/saveModel'
 
@@ -67,7 +70,7 @@ def dframe(dtype):
 def split_sample():
     for i in os.listdir(f'../ressources/{REPO_O}/training'):
         if i != '.ipynb_checkpoints':
-            if int(i.split('_')[0]) in SAMPLE_LABEL or (int(i.split('_')[0]) == 4 and int(i.split('_')[1].split('.')[0]) < 500):
+            if int(i.split('_')[0]) in SAMPLE_LABEL or (OTHER_FOOD == 1 and int(i.split('_')[0]) == LABEL_OTHER_FOOD and int(i.split('_')[1].split('.')[0]) < NBR_OTHER_FOOD):
                 with Image.open(f'../ressources/{REPO_O}/training/' + i) as image:
                     a = random.randint(0, 9)
 
