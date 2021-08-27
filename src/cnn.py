@@ -91,7 +91,7 @@ def sample_augmentation(sample_type, sample):
     )
     we = pd.DataFrame.to_numpy(sample)
     wer = tf.keras.preprocessing.image_dataset_from_directory(
-        f'../ressources/{REPO}/{sample_type}/', labels = sample,  image_size=(224, 224)
+        f'../ressources/{REPO}/{sample_type}/',  image_size=(224, 224)
     )
     #datagen.fit(sample.sample)
 
