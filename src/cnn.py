@@ -90,6 +90,8 @@ def sample_augmentation(sample_type, sample):
         horizontal_flip=True,
     )
 
+    datagen.fit(sample)
+
     generator = datagen.flow_from_dataframe(
         sample,
         directory=f'../ressources/{REPO}/{sample_type}/',
@@ -142,7 +144,7 @@ def train_model(model, train_generator, val_generator, epochs):
     # Print The Summary of The Model
     model.summary()
 
-    model.fit(train_generator, epochs=epochs, validation_data=val_generator)
+    model.fit_generator(train_generator, epochs=epochs, validation_data=val_generator)
 
 
 # evaluates the model with the evaluation set and prints out the accuracy statistics
